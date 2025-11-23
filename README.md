@@ -66,7 +66,7 @@ The Module Outdated Notifier requires a Foundry VTT API Key to check for module 
 
 #### Step 3: Extract the API Key (Hard Way)
 0. Do the previous steps to find `license.mjs`
-1. Look for a line that contains: `static LICENSE_API_KEY="..."`
+1. Find where the file contains: `static LICENSE_API_KEY="..."`. This is tricky because the file is all on 1 line.
 2. Copy the value between (but not including) the quotes.
 3. The API Key will be a mix of numbers and lowercase letters.
 4. Copy that into the API Key text box and save.
