@@ -1,5 +1,5 @@
 # Module Outdated Notifier (M.O.N.)
-![Foundry Core Compatible Version](https://img.shields.io/badge/dynamic/json.svg?url=https%3A%2F%2Fgithub.com%2Fhenry-malinowski%2Fmodule-outdated-notifier%2Freleases%2Flatest%2Fdownload%2Fmodule.json&label=Foundry%20Version&query=$.compatibility.verified&colorB=orange)
+[![Foundry Core Compatible Version](https://img.shields.io/badge/dynamic/json.svg?url=https%3A%2F%2Fgithub.com%2Fhenry-malinowski%2Fmodule-outdated-notifier%2Freleases%2Flatest%2Fdownload%2Fmodule.json&label=Foundry%20Version&query=$.compatibility.verified&colorB=orange)](https://img.shields.io/endpoint?url=https%3A%2F%2Ffoundryshields.com%2Fversion%3Fstyle%3Dfor-the-badge%26url%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fhenry-malinowski%2Fmodule-outdated-notifier%2Frefs%2Fheads%2Fmain%2Fmodule.json)
 
 A Foundry VTT module that automatically checks for module updates after loading a world and notifies Game Masters when updates are available.
 
