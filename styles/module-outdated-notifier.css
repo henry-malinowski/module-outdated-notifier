@@ -1,0 +1,6 @@
+/* Update Available Badge Style */
+#module-management .package .tag.badge.update-available {
+	border-color: var(--color-level-info-border);
+	background: var(--color-level-info);
+	color: var(--color-light-1);
+}

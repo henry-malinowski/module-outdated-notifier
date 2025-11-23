@@ -1,0 +1,11 @@
+<section class="standard-form">
+    {{formGroup field value=apiKey name="apiKey" localize=true}}
+
+    <div class="form-group">
+        <label><i class="fa-solid fa-file-import fa-fw"></i>{{localize "module-outdated-notifier.settingsConfig.import.label"}}</label>
+        <div class="form-fields">
+            <input type="file" id="license-file-input" accept=".mjs">
+        </div>
+        <p class="hint">{{localize "module-outdated-notifier.settingsConfig.import.hint"}}</p>
+    </div>
+</section>

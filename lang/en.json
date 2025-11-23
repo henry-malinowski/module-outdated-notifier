@@ -1,0 +1,44 @@
+{
+  "module-outdated-notifier": {
+    "settings": {
+      "apiKey": {
+        "name": "API Key",
+        "hint": "Your Foundry VTT API Key."
+      },
+      "settingsMenu": {
+        "name": "Set API Key",
+        "label": "Input or Browse..."
+      }
+    },
+    "notifications": {
+      "updatesAvailable": {
+        "title": "Module Updates Available"
+      },
+      "allUpToDate": "All enabled modules are up to date.",
+      "releaseNotes": "Release Notes",
+      "apiKeyRequired": {
+        "message": "Checking for updates requires an API Key. Please configure it in the {link}module settings{/link}."
+      },
+      "updateAvailable": "Update available: {version}"
+    },
+    "settingsConfig": {
+      "title": "API Key Configuration",
+      "field": {
+        "label": "API Key",
+        "hint": "You can find an appropriate API key in your license.mjs file."
+      },
+      "import": {
+        "label": "Import",
+        "hint": "Choose or drag-and-drop your license.mjs file to auto-fill the API Key. This can be found by right-clicking on the FoundryVTT application and clicking \"Browse Application Data\". Navigate into the dist/core/ to find license.mjs."
+      },
+      "button": {
+        "save": "Save Settings"
+      },
+      "messages": {
+        "fileWrongName": "Please select a file named 'license.mjs'.",
+        "extractionSuccess": "API Key extracted successfully.",
+        "extractionError": "Could not find API Key in the file."
+      }
+    }
+  }
+}
