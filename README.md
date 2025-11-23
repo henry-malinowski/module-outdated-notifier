@@ -3,7 +3,7 @@
 
 A Foundry VTT module that automatically checks for module updates after loading a world and notifies Game Masters when updates are available.
 
-**NOTE:** This module does not work unless a valid API Key is provided. Consult the (Setup section)[#getting-an-api-key]. If you're running Foundry in a hosted environment (where you can't access the application files), you will need to source the key by downloading Foundry from the website and using its file to source a valid key. 
+**NOTE:** This module does not work unless a valid API Key is provided. Consult the [Setup section](https://github.com/henry-malinowski/module-outdated-notifier?tab=readme-ov-file#setup). If you're running Foundry in a hosted environment (where you can't access the application files), you will need to source the key by downloading Foundry from the website and using its file to source a valid key. 
 
 ## Features
 
