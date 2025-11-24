@@ -57,7 +57,7 @@ The Module Outdated Notifier requires a Foundry VTT API Key to check for module 
 
 #### Step 2: Find the License File
 
-1. Navigate to the `dist/core/` folder within your Foundry VTT data directory.
+1. Navigate to the `dist/core/` folder within your Foundry VTT application directory.
 2. Locate the file named `license.mjs`.
 3. Open this file in a text editor.
 
