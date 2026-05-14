@@ -1,9 +1,10 @@
 # Module Outdated Notifier (M.O.N.)
+
 [![Foundry Core Compatible Version](https://img.shields.io/badge/dynamic/json.svg?url=https%3A%2F%2Fgithub.com%2Fhenry-malinowski%2Fmodule-outdated-notifier%2Freleases%2Flatest%2Fdownload%2Fmodule.json&label=Foundry%20Version&query=$.compatibility.verified&colorB=orange)](https://img.shields.io/endpoint?url=https%3A%2F%2Ffoundryshields.com%2Fversion%3Fstyle%3Dfor-the-badge%26url%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fhenry-malinowski%2Fmodule-outdated-notifier%2Frefs%2Fheads%2Fmain%2Fmodule.json)
 
 A Foundry VTT module that automatically checks for module updates after loading a world and notifies Game Masters when updates are available.
 
-**NOTE:** This module does not work unless a valid API Key is provided. Consult the [Setup section](https://github.com/henry-malinowski/module-outdated-notifier?tab=readme-ov-file#setup). If you're running Foundry in a hosted environment (where you can't access the application files), you will need to source the key by downloading Foundry from the website and using its file to source a valid key. 
+**NOTE:** This module does not work unless a valid API Key is provided. Consult the [Setup section](https://github.com/henry-malinowski/module-outdated-notifier?tab=readme-ov-file#setup). If you're running Foundry in a hosted environment (where you can't access the application files), you will need to source the key by downloading Foundry from the website and using its file to source a valid key.
 
 ## Features
 
@@ -16,13 +17,17 @@ A Foundry VTT module that automatically checks for module updates after loading 
 ## Screenshots
 
 ### Chat Notification
+
 When updates are available, GMs receive a chat message listing all modules with updates.
+
 <div align="center">
   <img src="github-assets/chat-notification.png">
 </div>
 
 ### Module Management Badge
+
 Modules with available updates are highlighted in the Module Management window with a special badge. Clicking the badge will show the version available and a link to the Release Notes if available.
+
 <div align="center">
   <img src="github-assets/update-available-badge.png">
 </div>
@@ -61,9 +66,11 @@ The Module Outdated Notifier requires a Foundry VTT API Key to check for module 
 2. Locate the file named `license.mjs`.
 
 #### Step 3: The Easy Way
+
 1. Drag and Drop that file into this Module's setting Application for storing the API Key used for checking updates.
 
 #### Step 3: Extract the API Key (Hard Way)
+
 0. Do the previous steps to find `license.mjs`, and open it with a text editor.
 1. Find where the file contains: `static LICENSE_API_KEY="..."`. This is tricky because the file is all on 1 line.
 2. Copy the value between (but not including) the quotes.
@@ -80,4 +87,4 @@ Once configured, the module will automatically:
 
 ## Support
 
-* **Issues**: Report bugs or request features on the [GitHub Issues](https://github.com/henry-malinowski/module-outdated-notifier/issues) page.
+- **Issues**: Report bugs or request features on the [GitHub Issues](https://github.com/henry-malinowski/module-outdated-notifier/issues) page.

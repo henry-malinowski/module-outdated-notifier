@@ -50,24 +50,24 @@ Hooks.once("ready", onReady);
  * Register module settings.
  */
 function registerSettings() {
-	/* If the user sets a key, immediately check for updates. */
-	game.settings.register(MODULE_ID, "apiKey", {
-		name: "module-outdated-notifier.settings.apiKey.name",
-		hint: "module-outdated-notifier.settings.apiKey.hint",
-		scope: "world",
-		config: false,
-		type: String,
-		default: "",
-		onChange: () => checkAndNotifyUpdates()
-	});
+  /* If the user sets a key, immediately check for updates. */
+  game.settings.register(MODULE_ID, "apiKey", {
+    name: "module-outdated-notifier.settings.apiKey.name",
+    hint: "module-outdated-notifier.settings.apiKey.hint",
+    scope: "world",
+    config: false,
+    type: String,
+    default: "",
+    onChange: () => checkAndNotifyUpdates(),
+  });
 
-	game.settings.registerMenu(MODULE_ID, "settingsMenu", {
-		name: "module-outdated-notifier.settings.settingsMenu.name",
-		label: "module-outdated-notifier.settings.settingsMenu.label",
-		icon: "fas fa-key",
-		type: SettingsConfig,
-		restricted: true
-	});
+  game.settings.registerMenu(MODULE_ID, "settingsMenu", {
+    name: "module-outdated-notifier.settings.settingsMenu.name",
+    label: "module-outdated-notifier.settings.settingsMenu.label",
+    icon: "fas fa-key",
+    type: SettingsConfig,
+    restricted: true,
+  });
 }
 
 // ============================================================================
@@ -80,29 +80,31 @@ function registerSettings() {
  * @throws {Error} If API key is missing or request fails.
  */
 async function fetchPackageList() {
-	const apiKey = game.settings.get(MODULE_ID, "apiKey");
+  const apiKey = game.settings.get(MODULE_ID, "apiKey");
 
-	if (!apiKey) {
-		throw new Error(game.i18n.localize("module-outdated-notifier.notifications.apiKeyRequired.message"));
-	}
+  if (!apiKey) {
+    throw new Error(
+      game.i18n.localize("module-outdated-notifier.notifications.apiKeyRequired.message"),
+    );
+  }
 
-	const response = await fetch(API_ENDPOINT, {
-		method: "POST",
-		headers: {
-			"Content-Type": "application/json",
-			"Authorization": `APIKey:${apiKey}`
-		},
-		body: JSON.stringify({
-			type: "module",
-			version: game.version
-		})
-	});
+  const response = await fetch(API_ENDPOINT, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `APIKey:${apiKey}`,
+    },
+    body: JSON.stringify({
+      type: "module",
+      version: game.version,
+    }),
+  });
 
-	if (!response.ok) {
-		throw new Error(`Failed to fetch package list: ${response.statusText}`);
-	}
+  if (!response.ok) {
+    throw new Error(`Failed to fetch package list: ${response.statusText}`);
+  }
 
-	return response.json();
+  return response.json();
 }
 
 // ============================================================================
@@ -117,25 +119,25 @@ async function fetchPackageList() {
  * @returns {Promise<void>}
  */
 function processInChunks(items, callback, chunkSize = PROCESSING_CHUNK_SIZE) {
-	return new Promise((resolve) => {
-		let index = 0;
+  return new Promise((resolve) => {
+    let index = 0;
 
-		function nextChunk() {
-			const end = Math.min(index + chunkSize, items.length);
+    function nextChunk() {
+      const end = Math.min(index + chunkSize, items.length);
 
-			for (; index < end; index++) {
-				callback(items[index]);
-			}
+      for (; index < end; index++) {
+        callback(items[index]);
+      }
 
-			if (index < items.length) {
-				setTimeout(nextChunk, 0);
-			} else {
-				resolve();
-			}
-		}
+      if (index < items.length) {
+        setTimeout(nextChunk, 0);
+      } else {
+        resolve();
+      }
+    }
 
-		nextChunk();
-	});
+    nextChunk();
+  });
 }
 
 /**
@@ -144,15 +146,15 @@ function processInChunks(items, callback, chunkSize = PROCESSING_CHUNK_SIZE) {
  * @returns {Promise<Map<string, object>>} A map of module names to package data.
  */
 async function buildRemotePackageMap(remotePackages) {
-	const remoteMap = new Map();
+  const remoteMap = new Map();
 
-	await processInChunks(remotePackages, (pkg) => {
-		if (pkg.name && pkg.version) {
-			remoteMap.set(pkg.name, pkg);
-		}
-	});
+  await processInChunks(remotePackages, (pkg) => {
+    if (pkg.name && pkg.version) {
+      remoteMap.set(pkg.name, pkg);
+    }
+  });
 
-	return remoteMap;
+  return remoteMap;
 }
 
 /**
@@ -162,25 +164,25 @@ async function buildRemotePackageMap(remotePackages) {
  * @returns {object|null} Update data if available, null otherwise.
  */
 function getModuleUpdate(module, remote) {
-	if (!remote?.version) return null;
+  if (!remote?.version) return null;
 
-	// remove leading 'v' from version strings
-	// this shouldn't be common, but a few module maintainers mistakenly include it in their registration
-	const current = module.version.replace(/^v/, "");
-	const latest = remote.version.version.replace(/^v/, "");
+  // remove leading 'v' from version strings
+  // this shouldn't be common, but a few module maintainers mistakenly include it in their registration
+  const current = module.version.replace(/^v/, "");
+  const latest = remote.version.version.replace(/^v/, "");
 
-	if (!foundry.utils.isNewerVersion(latest, current)) {
-		return null;
-	}
+  if (!foundry.utils.isNewerVersion(latest, current)) {
+    return null;
+  }
 
-	return {
-		id: module.id,
-		title: module.title,
-		current,
-		latest,
-		compatibleCore: remote.version.compatible_core_version,
-		releaseNotes: remote.version.notes || null
-	};
+  return {
+    id: module.id,
+    title: module.title,
+    current,
+    latest,
+    compatibleCore: remote.version.compatible_core_version,
+    releaseNotes: remote.version.notes || null,
+  };
 }
 
 /**
@@ -188,38 +190,37 @@ function getModuleUpdate(module, remote) {
  * @returns {Promise<Array<object>|null>} A list of update data for outdated modules, or null if check failed.
  */
 async function checkForUpdates() {
-	const apiKey = game.settings.get(MODULE_ID, "apiKey");
+  const apiKey = game.settings.get(MODULE_ID, "apiKey");
 
-	if (apiKey === "") {
-		notifyApiKeyRequired();
-		return null;
-	}
+  if (apiKey === "") {
+    notifyApiKeyRequired();
+    return null;
+  }
 
-	try {
-		const response = await fetchPackageList();
+  try {
+    const response = await fetchPackageList();
 
-		if (response.status !== "success" || !Array.isArray(response.packages)) {
-			console.error(`${MODULE_NAME} | Invalid response from package repository`);
-			return null;
-		}
+    if (response.status !== "success" || !Array.isArray(response.packages)) {
+      console.error(`${MODULE_NAME} | Invalid response from package repository`);
+      return null;
+    }
 
-		const remoteMap = await buildRemotePackageMap(response.packages);
-		const installedModules = Array.from(game.modules.values())
-			.filter(m => m.active);
-		const updates = [];
+    const remoteMap = await buildRemotePackageMap(response.packages);
+    const installedModules = Array.from(game.modules.values()).filter((m) => m.active);
+    const updates = [];
 
-		await processInChunks(installedModules, (module) => {
-			const update = getModuleUpdate(module, remoteMap.get(module.id));
-			if (update) {
-				updates.push(update);
-			}
-		});
+    await processInChunks(installedModules, (module) => {
+      const update = getModuleUpdate(module, remoteMap.get(module.id));
+      if (update) {
+        updates.push(update);
+      }
+    });
 
-		return updates;
-	} catch (error) {
-		console.error(`${MODULE_NAME} | Failed to check for updates:`, error);
-		return null;
-	}
+    return updates;
+  } catch (error) {
+    console.error(`${MODULE_NAME} | Failed to check for updates:`, error);
+    return null;
+  }
 }
 
 // ============================================================================
@@ -230,39 +231,42 @@ async function checkForUpdates() {
  * Create a chat message notifying that an API key is required.
  */
 function notifyApiKeyRequired() {
-	const module = game.modules.get(MODULE_ID);
-	const message = game.i18n.format("module-outdated-notifier.notifications.apiKeyRequired.message", {
-		"link": `<a href="${module.readme}">`,
-		"/link": "</a>"
-	});
+  const module = game.modules.get(MODULE_ID);
+  const message = game.i18n.format(
+    "module-outdated-notifier.notifications.apiKeyRequired.message",
+    {
+      link: `<a href="${module.readme}">`,
+      "/link": "</a>",
+    },
+  );
 
-	ChatMessage.create({
-		content: `
+  ChatMessage.create({
+    content: `
 			<h4>${MODULE_NAME}</h4>
 			<p>${message}</p>
 		`,
-		whisper: [game.user.id],
-		speaker: { alias: MODULE_NAME }
-	});
+    whisper: [game.user.id],
+    speaker: { alias: MODULE_NAME },
+  });
 }
 
 /**
  * Check for updates and notify GMs if any are available.
  */
 async function checkAndNotifyUpdates() {
-	const updates = await checkForUpdates();
+  const updates = await checkForUpdates();
 
-	if (updates === null) {
-		return;
-	}
+  if (updates === null) {
+    return;
+  }
 
-	if (updates.length > 0) {
-		notifyUpdatesAvailable(updates);
-		availableUpdates = updates;
-		registerModuleManagementHook();
-	} else {
-		notifyAllUpToDate();
-	}
+  if (updates.length > 0) {
+    notifyUpdatesAvailable(updates);
+    availableUpdates = updates;
+    registerModuleManagementHook();
+  } else {
+    notifyAllUpToDate();
+  }
 }
 
 /**
@@ -270,27 +274,25 @@ async function checkAndNotifyUpdates() {
  * @param {Array<object>} updates - The list of available updates.
  */
 function notifyUpdatesAvailable(updates) {
-	const content = UPDATE_MESSAGE_TEMPLATE({
-		updates,
-		title: game.i18n.localize("module-outdated-notifier.notifications.updatesAvailable.title"),
-		releaseNotesLabel: game.i18n.localize("module-outdated-notifier.notifications.releaseNotes")
-	});
-	const gmUserIds = game.users
-		.filter(u => u.isGM)
-		.map(u => u.id);
+  const content = UPDATE_MESSAGE_TEMPLATE({
+    updates,
+    title: game.i18n.localize("module-outdated-notifier.notifications.updatesAvailable.title"),
+    releaseNotesLabel: game.i18n.localize("module-outdated-notifier.notifications.releaseNotes"),
+  });
+  const gmUserIds = game.users.filter((u) => u.isGM).map((u) => u.id);
 
-	ChatMessage.create({
-		content,
-		whisper: gmUserIds,
-		speaker: { alias: MODULE_NAME }
-	});
+  ChatMessage.create({
+    content,
+    whisper: gmUserIds,
+    speaker: { alias: MODULE_NAME },
+  });
 }
 
 /**
  * Create a UI notification that all modules are up to date.
  */
 function notifyAllUpToDate() {
-	ui.notifications.info("module-outdated-notifier.notifications.allUpToDate", {localize: true});
+  ui.notifications.info("module-outdated-notifier.notifications.allUpToDate", { localize: true });
 }
 
 // ============================================================================
@@ -304,25 +306,28 @@ function notifyAllUpToDate() {
  * @param {object} _data - The data used for rendering.
  */
 function onRenderModuleManagement(_app, html, _data) {
-	for (const update of availableUpdates) {
-		const badge = html.querySelector(`li[data-module-id="${update.id}"] .tags > .tag.badge`);
-		if (!badge) continue;
+  for (const update of availableUpdates) {
+    const badge = html.querySelector(`li[data-module-id="${update.id}"] .tags > .tag.badge`);
+    if (!badge) continue;
 
-		badge.classList.add("update-available");
-		badge.querySelector("i").className = "fa-solid fa-fw fa-chevrons-up";
+    badge.classList.add("update-available");
+    badge.querySelector("i").className = "fa-solid fa-fw fa-chevrons-up";
 
-		const existingTooltip = badge.getAttribute("data-tooltip-html") ?? "";
-		const releaseNotesLink = update.releaseNotes
-			? `<br><a href="${update.releaseNotes}" target="_blank">${game.i18n.localize("module-outdated-notifier.notifications.releaseNotes")}</a>`
-			: "";
-		const updateText = game.i18n.format("module-outdated-notifier.notifications.updateAvailable", {
-			version: update.latest
-		});
-		badge.setAttribute("data-tooltip-html", `${existingTooltip}<br>${updateText}${releaseNotesLink}`);
-		if (releaseNotesLink) {
-			badge.setAttribute("data-locked", "");
-		}
-	}
+    const existingTooltip = badge.getAttribute("data-tooltip-html") ?? "";
+    const releaseNotesLink = update.releaseNotes
+      ? `<br><a href="${update.releaseNotes}" target="_blank">${game.i18n.localize("module-outdated-notifier.notifications.releaseNotes")}</a>`
+      : "";
+    const updateText = game.i18n.format("module-outdated-notifier.notifications.updateAvailable", {
+      version: update.latest,
+    });
+    badge.setAttribute(
+      "data-tooltip-html",
+      `${existingTooltip}<br>${updateText}${releaseNotesLink}`,
+    );
+    if (releaseNotesLink) {
+      badge.setAttribute("data-locked", "");
+    }
+  }
 }
 
 /**
@@ -330,7 +335,7 @@ function onRenderModuleManagement(_app, html, _data) {
  * Only called after updates are found to avoid unnecessary hook registrations.
  */
 function registerModuleManagementHook() {
-	Hooks.on("renderModuleManagement", onRenderModuleManagement);
+  Hooks.on("renderModuleManagement", onRenderModuleManagement);
 }
 
 // ============================================================================
@@ -342,15 +347,15 @@ function registerModuleManagementHook() {
  * Only runs for the first active GM to avoid duplicate checks.
  */
 async function onReady() {
-	if (!game.user.isGM) return;
+  if (!game.user.isGM) return;
 
-	const activeGMs = game.users
-		.filter(u => u.active && u.isGM)
-		.sort((a, b) => a.id.localeCompare(b.id));
+  const activeGMs = game.users
+    .filter((u) => u.active && u.isGM)
+    .sort((a, b) => a.id.localeCompare(b.id));
 
-	if (activeGMs[0]?.id !== game.user.id) return;
+  if (activeGMs[0]?.id !== game.user.id) return;
 
-	setTimeout(() => {
-		checkAndNotifyUpdates();
-	}, INITIAL_CHECK_DELAY);
+  setTimeout(() => {
+    checkAndNotifyUpdates();
+  }, INITIAL_CHECK_DELAY);
 }
