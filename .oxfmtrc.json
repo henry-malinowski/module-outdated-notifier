@@ -1,0 +1,4 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "ignorePatterns": ["**/*.lock", "node_modules/", "*.css*", "**/*.hbs"]
+}

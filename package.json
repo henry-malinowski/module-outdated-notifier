@@ -1,0 +1,15 @@
+{
+  "private": true,
+  "scripts": {
+    "format:check": "oxfmt --check .",
+    "format:write": "oxfmt --write .",
+    "lint": "oxlint .",
+    "lint:fix": "oxlint --fix .",
+    "fix": "bun run format:write && bun run lint:fix"
+  },
+  "devDependencies": {
+    "oxfmt": "^0.49.0",
+    "oxlint": "^1.64.0"
+  },
+  "packageManager": "bun@1.3.14"
+}
